@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- Invoice 1 - Bootstrap Brain Component -->
+
+      <div class="col-12 col-lg-9 col-xl-8 col-xxl-7" style="padding-top: 20px;">
+        
+        
+        
+        <div class="row gy-3 mb-3">
+          <div class="col-6">
+            <h2 class="text-uppercase text-endx m-0">Invoice</h2>
+          </div>
+          <div class="col-6">
+            <a class="d-block text-end" href="#!">
+              <img  src="{{ company.logo.url }}" alt="Company Logo" class="img-fluid"  width="135" height="44">
+            </a>
+          </div>
+          <div class="col-12">
+            <h4>Supplier Detail</h4>
+            <address>
+              <strong>{{ purchase_invoice.supplier.supplier_name }}</strong><br>
+              Address : {{ purchase_invoice.SupplierAddress| linebreaksbr }}<br>
+              Phone: {{ purchase_invoice.SupplierMobile }}<br>
+              Email: {{ purchase_invoice.SupplierEmail }}
+            </address>
+          </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12 col-sm-6 col-md-8">
+              
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+              <h4 class="row">
+                <span class="col-6">Voucher #</span>
+                <span class="col-6 text-sm-end">{{ purchase_invoice.PurchaseVoucherNumber }}</span>
+              </h4>
+              <div class="row">
+                <span class="col-6">Invoice No</span>
+                <span class="col-6 text-sm-end">#{{ purchase_invoice.InvoiceNumber }}</span>
+                <span class="col-6">Invoice Date</span>
+                <span class="col-6 text-sm-end">{{ purchase_invoice.InvoiceDate }}</span>
+                <span class="col-6">Due Date</span>
+                <span class="col-6 text-sm-end">{{ purchase_invoice.dueDate }}</span>
+              </div>
+            </div>
+          </div>
+        <div class="row mb-3">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>    
+                    <th scope="col" class="text-uppercase">Sr No</th>
+
+                    <th scope="col" class="text-uppercase">Product Description</th>
+                    <th scope="col" class="text-uppercase">Quantity</th>
+                    <th scope="col" class="text-uppercase text-end">Unit Price</th>
+                    <th scope="col" class="text-uppercase text-end">Total Price</th>
+                  </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                  {% for item in purchase_invoice.items.all %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+
+                    <td>{{ item.product_description }}</td>
+                    <td class="text-end">{{ item.quantity }}</td>
+                    <td class="text-end">{{ item.unit_price }}</td>
+                    <td class="text-end">{{ item.total_price }}</td>
+                  </tr>
+                {% endfor %}
+            
+                  <tr>
+                    <td></td>
+                    <td colspan="3" class="text-end">Subtotal</td>
+                    <td class="text-end">{{ purchase_invoice.SubTotal }}</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td colspan="3" class="text-end">TAX</td>
+                    <td class="text-end">{{ purchase_invoice.Vat }}</td>
+                  </tr>
+                
+                  <tr>
+                    <td></td>
+                    <th scope="row" colspan="3" class="text-uppercase text-end">Total</th>
+                    <td class="text-end">Rs {{ purchase_invoice.FinalAmount }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-primary mb-3"  onclick="window.print()">Download Invoice</button>
+          </div>
+        </div>
+      </div>
+
+
+
+
+{% endblock %}

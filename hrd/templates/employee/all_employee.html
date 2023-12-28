@@ -1,0 +1,75 @@
+<!-- user_list.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+  body {
+    background-color: #f8f9fa;
+  }
+
+  .card {
+    margin-top: 50px;
+    width: auto;
+
+  }
+
+  .card-header {
+    background-color: #007bff;
+    color: #ffffff;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+</style>
+
+<div class="card">
+  <div class="card-header">
+    User List
+  </div>
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Profile Pic</th>
+          <th scope="col">Username</th>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Department</th>
+          <th scope="col">Account Type</th>
+
+
+          
+          <th scope="col">Email</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+        <td><img src="{{ user.profilePic.url }}" alt="Profile Pic" class="rounded-circle" style="width: 30px; height: 30px;"></td>
+        
+          <td>{{ user.username }}</td>
+          <td>{{ user.first_name }}</td>
+          <td>{{ user.last_name }}</td>
+
+          <td>{{ user.department }}</td>
+          <td>{{ user.account_type }}</td>
+
+          <td>{{ user.email }}</td>
+          <td>
+            <a href="{% url 'user_details' user.id %}" class="btn btn-primary">View Details</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+

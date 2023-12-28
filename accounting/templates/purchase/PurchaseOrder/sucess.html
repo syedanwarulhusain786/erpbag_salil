@@ -1,0 +1,10 @@
+<!-- purchase_quote_success.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-success">Purchase Quotation Submitted Successfully!</h1>
+        <p>Thank you for submitting your purchase quotation.</p>
+        <a href="{% url 'purchase_order_list' %}" class="btn btn-primary">Go to Purchase Order List</a>
+    </div>
+{% endblock %}

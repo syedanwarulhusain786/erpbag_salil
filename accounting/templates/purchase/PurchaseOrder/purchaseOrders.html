@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  body {
+    background-color: #f8f9fa;
+  }
+
+  .card {
+    margin-top: 50px;
+    width: auto;
+    max-width: 100%;
+    /* Adjust the maximum width as needed */
+    margin-left: auto;
+    margin-right: auto;
+    height: calc(80vh - 100px);
+  }
+
+  .card-header {
+    background-color: #007bff;
+    color: #ffffff;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  label {
+    font-weight: bold;
+    /* Make the label bold */
+    padding: 5px;
+  }
+</style>
+
+<div class="card">
+  <div class="card-header">
+    Purchase Orders
+  </div>
+    <!-- success_page_template.html -->
+    {% for message in success_messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="card-body">
+
+      <table class="table table-striped" id="productsTable">
+        <div>
+          
+          <a href="{% url 'purchase_quote' %}" target="_blank" class="mb-1 btn btn-pill btn-primary" id="openModalBtn">Create Purchase Order</a>
+        </div>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Purchase Order No</th>
+            <th scope="col">Supplier Name</th>
+            <th scope="col">Purchase Order Date</th>
+
+            <th scope="col">Purchase Order Expiry</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Email</th>
+            <th scope="col">Sub Total</th>
+            <th scope="col">Tax Total</th>
+            <th scope="col">Final Amount</th>
+
+
+       
+
+
+
+
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for Supplier in quotes %}
+
+          <tr>
+            <td scope="row">{{ forloop.counter }}</td>
+            <td>{{ Supplier.quotation_number }}</td>
+            <td>{{ Supplier.supplier }}</td>
+            <td>{{ Supplier.quotation_date }}</td>
+            <td>{{ Supplier.expiry_date }}</td>
+            <td>{{ Supplier.supplier.mobile }}</td>
+            <td>{{ Supplier.supplier.email }}</td>
+            <td>{{ Supplier.sub_total }}</td>
+            <td>{{ Supplier.tax_total }}</td>
+            <td>{{ Supplier.final_amt }}</td>
+
+
+
+            <td>
+              <a type="button" class="btn btn-success" href="{% url 'quotation-detail' pk=Supplier.quotation_number %}">View</a>
+
+              <a type="button" class="btn btn-danger" href="{% url 'quotation-delete' pk=Supplier.quotation_number %}">Delete</a>
+
+            </td>
+          </tr>
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+</div>
+
+
+<script src="{% static '\home\js\chatOfAccount.js' %}"></script>
+
+
+{% endblock %}

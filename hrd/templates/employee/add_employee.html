@@ -1,0 +1,175 @@
+
+
+
+
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Your other HTML code -->
+<style>
+  /* Add this to your CSS file */
+.dark-border {
+    border: 1px solid #343a40; /* Change the color code to your desired dark color */
+    color: #343a40; /* Change the color code to your desired dark color */
+}
+
+</style>
+<div class="card text-center">
+  <div class="card-header">
+    User Registration
+  </div>
+  <div class="card-body">
+    <form name="userRegistrationForm" method="POST" action="{% url 'create_employee' %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      
+      <div class="row" style="padding:20px">
+        <div class="col-md-4">
+          {{ form.username.label_tag }}
+          {{ form.username }}
+          {% for error in form.username.errors %}
+          <span class="text-danger">{{ error }}</span><br>
+        {% endfor %}
+        </div>
+        <div class="col-md-4">
+          {{ form.password1.label_tag }}
+          {{ form.password1 }}
+          {% for error in form.password1.errors %}
+              <span class="text-danger">{{ error }}</span><br>
+            {% endfor %}
+        </div>
+        <div class="col-md-4">
+          {{ form.password2.label_tag }}
+
+          {{ form.password2 }}
+          {% for error in form.password2.errors %}
+          <span class="text-danger">{{ error }}</span><br>
+        {% endfor %}
+        </div>
+      </div>
+
+      <div class="row" style="padding:20px">
+        <div class="col-md-4">
+          {{ form.first_name.label_tag }}
+          {{ form.first_name }}
+        </div>
+        <div class="col-md-4">
+          {{ form.last_name.label_tag }}
+          {{ form.last_name }}
+        </div>
+        <div class="col-md-4">
+          {{ form.email.label_tag }}
+          {{ form.email }}
+        </div>
+      </div>
+
+      <div class="row" style="padding:20px">
+        <div class="col-md-4">
+          {{ form.phone_number.label_tag }}
+          {{ form.phone_number }}
+        </div>
+        <div class="col-md-4">
+          {{ form.profile_pic.label_tag }}
+          {{ form.profile_pic }}
+        </div>
+        <div class="col-md-4">
+          {{ form.account_type.label_tag }}
+          {{ form.account_type }}
+        </div>
+      </div>
+
+      <div class="row" style="padding:20px">
+        <div class="col-md-4">
+          {{ form.department.label_tag }}
+          {{ form.department }}
+        </div>
+        <div class="col-md-4">
+          {{ form.company.label_tag }}
+          {{ form.company }}
+        </div>
+      </div>
+
+      <hr>
+      <br>
+
+
+      <div class="row" style="padding:20px">
+        <div class="col-md-4">
+            {{ employee_form.date_of_birth.label_tag }}
+            {{ employee_form.date_of_birth }}
+        </div>
+        <div class="col-md-4">
+            {{ employee_form.address.label_tag }}
+            {{ employee_form.address }}
+        </div>
+        <div class="col-md-4">
+            {{ employee_form.phone_number.label_tag }}
+            {{ employee_form.phone_number }}
+        </div>
+    </div>
+    
+    <div class="row" style="padding:20px">
+        <div class="col-md-4">
+            {{ employee_form.emergency_contact_name.label_tag }}
+            {{ employee_form.emergency_contact_name }}
+        </div>
+        <div class="col-md-4">
+            {{ employee_form.emergency_contact_number.label_tag }}
+            {{ employee_form.emergency_contact_number }}
+        </div>
+        <div class="col-md-4">
+            {{ employee_form.joining_date.label_tag }}
+            {{ employee_form.joining_date }}
+        </div>
+    </div>
+
+    <div class="row" style="padding:20px">
+        <div class="col-md-4">
+            {{ employee_form.salary.label_tag }}
+            {{ employee_form.salary }}
+        </div>
+        <div class="col-md-4">
+            {{ employee_form.account_holder_name.label_tag }}
+            {{ employee_form.account_holder_name }}
+        </div>
+        <div class="col-md-4">
+            {{ employee_form.account_number.label_tag }}
+            {{ employee_form.account_number }}
+        </div>
+    </div>
+    
+    <div class="row" style="padding:20px">
+        <div class="col-md-4">
+            {{ employee_form.bank_name.label_tag }}
+            {{ employee_form.bank_name }}
+        </div>
+        <div class="col-md-4">
+            {{ employee_form.branch_name.label_tag }}
+            {{ employee_form.branch_name }}
+        </div>
+        <div class="col-md-4">
+            {{ employee_form.ifsc_code.label_tag }}
+            {{ employee_form.ifsc_code }}
+        </div>
+    </div>
+    
+    <div class="row" style="padding:20px">
+        <div class="col-md-4">
+            {{ employee_form.email.label_tag }}
+            {{ employee_form.email }}
+        </div>
+        <div class="col-md-4">
+            {{ employee_form.pan.label_tag }}
+            {{ employee_form.pan }}
+        </div>
+    </div>
+      <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+  </div>
+
+</div>
+
+<!-- Your other HTML code -->
+
+{% endblock %}

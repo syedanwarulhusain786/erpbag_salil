@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  body {
+    background-color: #f8f9fa;
+  }
+
+  .card {
+    margin-top: 50px;
+    width: auto;
+    max-width: 100%;
+    /* Adjust the maximum width as needed */
+    margin-left: auto;
+    margin-right: auto;
+    height: calc(80vh - 100px);
+  }
+
+  .card-header {
+    background-color: #007bff;
+    color: #ffffff;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  label {
+    font-weight: bold;
+    /* Make the label bold */
+    padding: 5px;
+  }
+</style>
+
+<div class="card">
+  <div class="card-header">
+    <h2>All Purchase Returns</h2>
+
+  </div>
+
+    <div class="card-body">
+
+<table class="table table-striped" >
+  <div>
+          
+    <a href="{% url 'create_purchase_return' %}" target="_blank" class="mb-1 btn btn-pill btn-primary" id="openModalBtn">Create Purchase Return</a>
+  </div>
+  <thead>
+    <tr>
+      <th>S No</th>
+      <th>Purchase ID</th>
+      <th>Return Date</th>
+      <th>Total Value</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for purchase_return in purchase_returns %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+
+        <td>{{ purchase_return.purchase.PurchaseVoucherNumber }}</td>
+        <td>{{ purchase_return.return_date }}</td>
+        <td>{{ purchase_return.total_value }}</td>
+        <td><a class="btn btn-primary" href="{% url 'purchase_return_detail' purchase_return.id %}">View</a></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+</div>
+
+{% endblock %}

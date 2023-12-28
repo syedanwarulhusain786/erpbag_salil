@@ -1,0 +1,630 @@
+{% load static %}
+<aside class="left-sidebar with-vertical">
+    <div><!-- ---------------------------------- -->
+      <!-- Start Vertical Layout Sidebar -->
+      <!-- ---------------------------------- -->
+      <div class="brand-logo d-flex align-items-center justify-content-between">
+        <a href="https://bootstrapdemos.adminmart.com/modernize/dist/main/index.html" class="text-nowrap logo-img">
+          <img src="{% static '/assets\images\logos\favicon.png' %}" class="dark-logo" alt="Logo-Dark" id="logo" />
+          <img src="{% static '/assets\images\logos\favicon.png' %}" class="light-logo" alt="Logo-light" id="logo" />
+        </a>
+        <a href="javascript:void(0)" class="sidebartoggler ms-auto text-decoration-none fs-5 d-block d-xl-none">
+          <i class="ti ti-x"></i>
+        </a>
+      </div>.
+
+
+
+
+
+
+
+
+
+          
+
+
+
+
+
+
+
+
+
+
+       
+
+  <nav class="sidebar-nav scroll-sidebar" data-simplebar>
+  
+{% if user.department.name == "SALES" %}
+    <ul id="sidebarnav">
+       <!-- ---------------------------------- -->
+       <!-- Home -->
+       <!-- ---------------------------------- -->
+       <li class="nav-small-cap">
+         <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+         <span class="hide-menu">Dashboard</span>
+       </li>
+       <li class="sidebar-item">
+         <a class="sidebar-link" href="{% url 'sales-home' %}" aria-expanded="false">
+           <span>
+             <img src="{% static 'icons/dashboard.png' %}" alt="All Products Icon" width="24" height="24">
+
+           </span>
+           <span class="hide-menu">Home</span>
+         </a>
+       </li>
+
+
+
+       <li class="nav-small-cap">
+        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+        <span class="hide-menu">Products</span>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" href="{% url 'products' %}" aria-expanded="false">
+          <span>
+            <img src="{% static 'icons/new-product.png' %}" alt="All Products Icon" width="24" height="24">
+
+          </span>
+          <span class="hide-menu">All Products</span>
+        </a>
+      </li>
+<!-- 
+      <li class="sidebar-item">
+        <a class="sidebar-link" href="{% url 'products' %}" aria-expanded="false">
+          <span>
+            <img src="{% static 'icons/product.png' %}" alt="All Products Icon" width="24" height="24">
+
+          </span>
+          <span class="hide-menu">Add Custom Products</span>
+        </a>
+      </li> -->
+
+
+      <li class="nav-small-cap">
+        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+        <span class="hide-menu">Quotation</span>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" href="{% url 'create_quotation' %}" aria-expanded="false">
+          <span>
+            <img src="{% static 'icons/invoice.png' %}" alt="All Products Icon" width="24" height="24">
+
+          </span>
+          <span class="hide-menu">Create Quotation</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" href="{% url 'quotelist' %}" aria-expanded="false">
+          <span>
+            <img src="{% static 'icons/addCustomer.png' %}" alt="All Products Icon" width="24" height="24">
+
+          </span>
+          <span class="hide-menu">Quotations</span>
+        </a>
+      </li>
+
+      <li class="nav-small-cap">
+        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+        <span class="hide-menu">Sales</span>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" href="{% url 'sales' %}" aria-expanded="false">
+          <span>
+            <img src="{% static 'icons/add-cart.png' %}" alt="All Products Icon" width="24" height="24">
+
+          </span>
+          <span class="hide-menu">Create Order</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" href="{% url 'sales_list' %}" aria-expanded="false">
+          <span>
+            <img src="{% static 'icons/mySales.png' %}" alt="All Products Icon" width="24" height="24">
+
+          </span>
+          <span class="hide-menu">My Sales</span>
+        </a>
+      </li>
+      
+
+      </ul>
+{% endif %}
+
+{% if user.department.name == "ACCOUNT" or user.department.name == "ACCOUNT" %}
+  
+    <ul id="sidebarnav">
+
+    <li class="nav-small-cap">
+      <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+      <span class="hide-menu">Master</span>
+    </li>
+
+    <li class="sidebar-item">
+      <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+        <span class="d-flex">
+          <i class="ti ti-user-code"></i>
+
+        </span>
+        <span class="hide-menu">Manager</span>
+      </a>
+      <ul aria-expanded="false" class="collapse first-level">
+        <li class="sidebar-item">
+          <a href="{% url 'primaryGroup' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Primary Group</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="{% url 'groupage' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Account Groups</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="{% url 'accountingledger' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Account Ledger</span>
+          </a>
+        </li>
+
+
+        <li class="sidebar-item">
+          <a href="{% url 'customer' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Customers</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="{% url 'supplier' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Suppliers</span>
+          </a>
+        </li>
+
+
+      </ul>
+    </li>
+    <!-- ---------------------------------- -->
+    <!-- PAGES -->
+    <!-- ---------------------------------- -->
+
+
+
+    <li class="sidebar-item">
+      <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+        <span class="d-flex">
+          <i class="ti ti-shopping-cart"></i>
+        </span>
+        <span class="hide-menu">Purchases</span>
+      </a>
+      <ul aria-expanded="false" class="collapse first-level">
+        <li class="sidebar-item">
+          <a href="{% url 'purchase-orders' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Purchase Orders</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item">
+          <a href="{% url 'purchaseOrder' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Purchase Invoices</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item">
+          <a href="{% url 'purchase_return_list' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Purchase Return</span>
+          </a>
+        </li>
+        
+      </ul>
+    </li>
+
+
+
+
+    
+    <li class="sidebar-item">
+      <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+        <span class="d-flex">
+          <i class="ti ti-report-money"></i>
+        </span>
+        <span class="hide-menu">Sales Voucher</span>
+      </a>
+      <ul aria-expanded="false" class="collapse first-level">
+
+      
+        <li class="sidebar-item">
+          <a href="{% url 'allsales_list' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Accept Sales Invoices</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="{% url 'allquote_list' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Sales Quotes</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="{% url 'sales' %}" aria-expanded="false">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Create Order</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="{% url 'create_quotation' %}" aria-expanded="false">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Create Quotation</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+
+
+
+
+
+    <li class="sidebar-item">
+      <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+        <span class="d-flex">
+          <i class="ti ti-credit-card-pay"></i>
+        </span>
+        <span class="hide-menu">Payment Voucher</span>
+      </a>
+      <ul aria-expanded="false" class="collapse first-level">
+        
+        <li class="sidebar-item">
+          <a href="{% url 'payment' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Add Payment</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item">
+          <a href="{% url 'payment-entries' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">View Payments</span>
+          </a>
+        </li>
+        
+        
+      </ul>
+    </li>
+
+
+
+    <li class="sidebar-item">
+      <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+        <span class="d-flex">
+          <i class="ti ti-credit-card-pay"></i>
+        </span>
+        <span class="hide-menu">Reciept Voucher</span>
+      </a>
+      <ul aria-expanded="false" class="collapse first-level">
+        
+        <li class="sidebar-item">
+          <a href="{% url 'reciept' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Add Reciept</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item">
+          <a href="{% url 'reciept-entries' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">View Reciept</span>
+          </a>
+        </li>
+        
+        
+      </ul>
+    </li>
+
+
+
+  
+  
+
+
+
+  </ul>
+{% endif %}
+{% if user.department.name == "INVENTORY" or user.department.name == "ACCOUNT" %}
+<li class="nav-small-cap">
+  <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+  <span class="hide-menu">Inventory</span>
+</li>
+  <ul id="sidebarnav">
+
+  <li class="sidebar-item">
+    <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+      <span class="d-flex">
+        <i class="ti ti-brand-producthunt"></i>
+      </span>
+      <span class="hide-menu">Products and Services</span>
+    </a>
+    <ul aria-expanded="false" class="collapse first-level">
+      <li class="sidebar-item">
+        <a href="{% url 'product_list' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Products Creation</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="{% url 'product-materials' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Add Material to Product</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="{% url 'material_list' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Materials</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="{% url 'brand_category' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Brands and Category</span>
+        </a>
+      </li>
+
+
+
+
+
+      <li class="sidebar-item">
+        <a href="{% url 'list_services' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Add Services</span>
+        </a>
+      </li>
+
+    </ul>
+  </li>
+
+
+
+</ul>
+
+
+<ul id="sidebarnav">
+
+  <li class="sidebar-item">
+    <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+      <span class="d-flex">
+        <i class="ti ti-brand-producthunt"></i>
+      </span>
+      <span class="hide-menu">Stock Entries</span>
+    </a>
+    <ul aria-expanded="false" class="collapse first-level">
+      <li class="sidebar-item">
+        <a href="{% url 'create_product_stock' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Create Product Stock</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="{% url 'create_material_stock' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Create Material Stock</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="{% url 'material_stock_list' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Material Stock List</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="{% url 'product_stock_list' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Product Stock List</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="{% url 'stock_report' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Stock Report</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+
+
+
+</ul>
+
+
+<ul id="sidebarnav">
+
+  <li class="sidebar-item">
+    <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+      <span class="d-flex">
+        <i class="ti ti-brand-producthunt"></i>
+      </span>
+      <span class="hide-menu">Accepted Order</span>
+    </a>
+    <ul aria-expanded="false" class="collapse first-level">
+      <li class="sidebar-item">
+        <a href="{% url 'acceptedsales_list' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Accepted Orders</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="{% url 'create_material_stock' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Create Material Stock</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="{% url 'material_stock_list' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Material Stock List</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="{% url 'product_stock_list' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Product Stock List</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="{% url 'stock_report' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Stock Report</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+
+
+
+</ul>
+{% endif %}
+
+{% if user.department.name == "HRD" or user.department.name == "ACCOUNT" %}
+<li class="nav-small-cap">
+  <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+  <span class="hide-menu">HRD</span>
+</li>
+  <ul id="sidebarnav">
+
+  <li class="sidebar-item">
+    <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+      <span class="d-flex">
+        <i class="ti ti-brand-producthunt"></i>
+      </span>
+      <span class="hide-menu">Employee</span>
+    </a>
+    <ul aria-expanded="false" class="collapse first-level">
+      <li class="sidebar-item">
+        <a href="{% url 'create_employee' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Add Employee</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="{% url 'user_list' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">All Employee</span>
+        </a>
+      </li>
+      
+
+
+
+
+<!-- 
+      <li class="sidebar-item">
+        <a href="{% url 'list_services' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Employee Salary</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="{% url 'list_services' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Attendence</span>
+        </a>
+      </li>
+    </ul>
+  </li> -->
+
+
+
+</ul>
+
+
+
+{% endif %}
+
+</nav>
+
+
+
+
+ 
+
+      <!-- ---------------------------------- -->
+      <!-- Start Vertical Layout Sidebar -->
+      <!-- ---------------------------------- -->
+    </div>
+  </aside>

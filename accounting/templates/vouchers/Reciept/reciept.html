@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    /* Loading animation styles (you can replace this with your animation) */
+    .loading {
+        width: 50px;
+        height: 50px;
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Checkmark styles */
+    .checkmark {
+        font-size: 48px;
+        color: #4CAF50;
+        /* Green color for checkmark */
+        display: none;
+        /* Initially hide the checkmark */
+    }
+</style>
+
+<style>
+    .row-date-voucher {
+    display: flex;
+    align-items: center;
+}
+
+.row-date-voucher label {
+    margin-right: 10px; /* Adjust as needed for spacing between label and input */
+}
+</style>
+<!-- ====================================
+        ——— CONTENT WRAPPER
+        ===================================== -->
+
+        <!-- Top Statistics -->
+        <div class="container mt-5 text-center" style="max-width:1920px;">
+            <div class="card">
+                <div class="card-header text-center">
+                    <span class="mdi-format-float-left"></span>
+
+                    <h4>Reciept Entry
+                    </h4>
+                    <!-- Expand Left -->
+                </div>
+                <div class="card-body">
+                    <form id="myActualForm" method="Post">
+                        {% csrf_token %}
+                        <div class="row row-date-voucher">
+                            <div class="col-md-3">
+                            <div class="form-group ">
+                                <label class="col-form-label" for="journal_date">Date <span class="text-danger">*&emsp;</span></label>
+                                <input type="date" class="form-control" id="journal_date" required>
+                            </div>
+                            </div>
+                            <div class="col-md-3 offset-md-6">
+                                <label class="col-form-label" for="voucher_no">Payment Voucher No &emsp;</label>
+                                <input type="text" class="form-control" id="voucher_no"  readonly value="RP-{{next_quotation_number}}">
+                            </div>
+                        </div>
+                        
+                        <div class="row row-invoice">
+                            <div class="col-md-6">
+                                <label class="col-form-label" for="voucher_no">Agst&emsp;</label>
+                                <select class="form-control" id="invoice_no" name="invoice_no" data-value="your_data_value" other-attribute="other_value">
+                                    <option selected>--Select Sales--</option>
+                                    {% for purchase in purchases %}
+                                    <option data-Date="{{purchase.sale_number}}" data-supplier="{{purchase.customer_name}}" data-balance={{purchase.sub_total}} data-final-amount={{purchase.sub_total}} value="PR-{{purchase.sale_number}}">SL-{{purchase.sale_number}}</option>
+                                    {% endfor %}
+                                </select>
+                                <small id="selectedOptionInfo" class="form-text text-muted"></small>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label class="col-form-label" for="journal_date"> Agst Voucher Date &emsp;</label>
+                                <input type="date" class="form-control" id="invoice_date" name="invoice_date">
+                            </div>
+                        </div>
+                        
+                        <div class="row row-narration">
+                            <div class="col-md-6 offset-md-3 p-10" style="padding:10px;">
+                                <label class="col-form-label" for="notes">Narration &emsp;</label>
+                                <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Write something here..."></textarea>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <input type="hidden" id="count" name="count" value="2">
+                            <table class="table table-bordered" id="transactionTable">
+                                <thead>
+                                    <tr>
+                                        <th>From</th>
+                                        <th>To</th>
+                                        <th>Comment</th>
+                                        <th>Amount</th>
+                                        <th>Tax</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td>
+                                            <select class="form-control" id="dropdown2" name="dropdown2" data-live-search="true">
+                                                <option selected>--Select Ledger--</option>
+                                               
+                                                {% for account in account_list %}
+                                                <option
+                                                    data-value="{{ account.group.primary_group.primary_group_name }}"
+                                                    data-tokens="{{ account.group }}"
+                                                    id="{{ account.ledger_number.subcategory_name }}"
+                                                    value="{{ account.ledger_number }}">{{ account.ledger_name }}
+                                                </option>
+
+
+                                                {% endfor %}
+                                            </select>
+
+                                        </td>
+                                        <td>
+                                            <select class="form-control" id="dropdown1" name="dropdown1">
+                                                <option selected>--Select Ledger--</option>
+                                               
+                                                {% for account in pay %}
+                                                <option
+                                                    data-value="{{ account.group.primary_group.primary_group_name }}"
+                                                    data-tokens="{{ account.group }}"
+                                                    id="{{ account.ledger_number.subcategory_name }}"
+                                                    value="{{ account.ledger_number }}">{{ account.ledger_name }}
+                                                </option>
+
+
+                                                {% endfor %}
+                                            </select>
+                                        </td>
+                                        
+                                        <td>
+                                            <input type="text" id="comment" name="comment">
+                                        </td>
+                                        <td><input type="text" class="form-control" id="amt" name="amt"  oninput="updateTax()"></td>
+                                        <td><input type="number" class="form-control" step="0.01" id="tax"name="tax"></td>
+
+                                    </tr>
+
+        
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <!-- Submit Button -->
+                        <div class="form-group text-center my-5">
+                            <button type="submit" class="btn btn-primary" id="submitForm">Submit</button>
+                            <button type="button" class="btn btn-primary" id="clearFormButton">Clear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+<!-- The modal -->
+<script>
+    // Get a reference to the date input element
+    const dateInput = document.getElementById('journal_date');
+
+    // Create a new Date object for today's date
+    const today = new Date();
+
+    // Get the year, month, and day in the format "YYYY-MM-DD"
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
+    const day = today.getDate().toString().padStart(2, '0');
+
+    // Set the value of the date input to today's date
+    dateInput.value = `${year}-${month}-${day}`;
+</script>
+<script>
+    function updateTax() {
+        // Get the amount input value
+        var amount = parseFloat(document.getElementById('amt').value);
+
+        // Check if the input is a valid number
+        if (!isNaN(amount)) {
+            // Calculate tax (18%)
+            var taxPercentage = 18;
+            var taxAmount = (amount * taxPercentage) / 100;
+
+            // Update the tax input value
+            document.getElementById('tax').value = taxAmount.toFixed(2);
+        } else {
+            // Clear the tax input if the amount is not a valid number
+            document.getElementById('tax').value = '';
+        }
+    }
+</script>
+<script>
+    $(document).ready(function() {
+        // Attach change event listener to the select element
+        $('#invoice_no').change(function() {
+            // Get the selected option
+            var selectedOption = $(this).find(':selected');
+
+            // Get data attributes
+            var balance = selectedOption.data('balance');
+            var finalAmount = selectedOption.data('final-amount');
+            var supplier = selectedOption.data('supplier');
+            var purchaseDate = selectedOption.data('date');
+
+
+            // Update the small text below the select element
+            $('#selectedOptionInfo').text(`Balance: ${balance}, Final Amount: ${finalAmount} , Supplier : ${supplier}`);
+            var formattedDate = new Date(purchaseDate).toISOString().split('T')[0];
+
+            // Set the value of the invoice_date input
+            $('#invoice_date').val(formattedDate);
+        });
+    });
+</script>
+
+{% endblock %}

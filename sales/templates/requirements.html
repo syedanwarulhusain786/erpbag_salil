@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+ 
+
+  .card {
+    margin-top: 50px;
+    width: auto;
+    max-width: 100%;
+
+  }
+
+  .card-header {
+    background-color: #007bff;
+    color: #ffffff;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  label {
+    font-weight: bold;
+    /* Make the label bold */
+    padding: 5px;
+  }
+  .red-row {
+    background-color: red;
+}
+</style>
+
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h2 class="mb-0">Requirements For Sales ID SL-{{ sales_id }}</h2>
+    {% if status == 'pending' %}
+    <a href="{% url 'accept_sales_order' sales_id %}" class="btn btn-secondary">Accept Order</a>
+    {% else %}
+    <a href="#" class="btn btn-danger" disabled>Order Accepted</a>
+    {% endif %}
+
+</div>
+
+
+  
+  {% for order in final %}
+  <div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="heading{{ order.id }}">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ order.id }}" aria-expanded="true" aria-controls="collapse{{ order.id }}">
+          <span>{{order.Product}}</span>  
+
+        </button>
+      </h2>
+      <div id="collapse{{ order.id }}" class="accordion-collapse collapse show" aria-labelledby="heading{{ order.id }}" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            <table  class="table">
+                <thead>
+                  <th>Material</th>
+                  <th>Unit</th>
+
+                  <th>Quantity Per Piece</th>
+                  <th>Order Quantity</th>
+                  <th>Required</th>
+                  <th>Available</th>
+
+                </thead>
+                <tbody>
+                    {% for or in order.needed %}
+                    <tr>
+                      <td>{{ or.material }}</td>
+                      <td>{{ or.unit }}</td>
+                      <td class="accordion">{{ or.quantity_per_piece }}</td>
+                      <td>{{ or.order_quantity }}</td>
+                      <td >{{ or.required }}</td>
+                      <td>{{ or.available }}</td>
+                      
+
+                  </tr>
+            
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  {% endfor %}
+
+
+  <script>
+    // Initialize Bootstrap components
+    $(document).ready(function () {
+        $('[data-bs-toggle="collapse"]').each(function () {
+            $(this).click(function () {
+                var target = $(this).data('bs-target');
+                $(target).collapse('toggle');
+            });
+        });
+    });
+</script>
+
+
+{% endblock %}

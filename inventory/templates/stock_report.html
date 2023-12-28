@@ -1,0 +1,72 @@
+<!-- stock_report.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Stock Report</h2>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Material Stock</h3>
+        <ul class="list-group">
+          <li class="list-group-item">Total Quantity: {{ material_report.total_quantity }}</li>
+          <li class="list-group-item">Total Cost: Rs{{ material_report.total_cost }}</li>
+          <li class="list-group-item">Total Value: Rs{{ material_report.total_value }}</li>
+          <li class="list-group-item">Material Entries: {{ material_count }}</li>
+          <li class="list-group-item">Average Cost per Unit: Rs{{ average_cost_per_unit_material }}</li>
+        </ul>
+
+        <h3 class="mt-4">Material List</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Material Name</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for material in material_list %}
+              <tr>
+                <td>{{ material.material__name }}</td>
+                <td>{{ material.total_quantity }}</td>
+                <td>Rs{{ material.total_value }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-md-6">
+        <h3>Product Stock</h3>
+        <ul class="list-group">
+          <li class="list-group-item">Total Quantity: {{ product_report.total_quantity }}</li>
+          <li class="list-group-item">Total Cost: Rs{{ product_report.total_cost }}</li>
+          <li class="list-group-item">Total Value: Rs{{ product_report.total_value }}</li>
+          <li class="list-group-item">Product Entries: {{ product_count }}</li>
+          <li class="list-group-item">Average Cost per Unit: Rs{{ average_cost_per_unit_product }}</li>
+        </ul>
+
+        <h3 class="mt-4">Product List</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Product Name</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product in product_list %}
+              <tr>
+                <td>{{ product.product__name }}</td>
+                <td>{{ product.total_quantity }}</td>
+                <td>Rs{{ product.total_value }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
