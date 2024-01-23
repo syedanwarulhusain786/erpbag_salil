@@ -106,7 +106,7 @@ def create_sales(request):
     services=Service.objects.all()
     
     material=Material.objects.all()
-    Ledgers=Ledger.objects.filter(group__group_name__in=['SALES', 'SUNDRY DEBTORS'])
+    Ledgers=Ledger.objects.filter(group__group_name__in=['SALES', 'SUNDRY DEBTORS','ACCOUNTS RECEIVABLES'])
     if request.method == 'POST':
         entry='sales'
         user = CustomUser.objects.get(username=request.user)

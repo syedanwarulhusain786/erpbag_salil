@@ -55,7 +55,7 @@
       </h2>
       <div id="collapse{{ order.id }}" class="accordion-collapse collapse show" aria-labelledby="heading{{ order.id }}" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-          <form method="post" action="{% url 'allocate' sales_id %}">
+          <form method="post" action="{% url 'saveallocate' sales_id order.row order.needed_len %}">
             {% csrf_token %}
             <table>
               <thead>
@@ -74,38 +74,40 @@
               <tbody>
                 {% for or in order.needed %}
                   <tr>
+                      <!-- Input field for material within the form -->
+                      <input type="hidden" class='hidden' name="row_{{or.row}}_{{forloop.counter}}" value="{{ or.row }}" readonly/>
                     <td>
                       <!-- Input field for material within the form -->
-                      <input type="text" class='form-control' name="material_{{order.id}}_{{forloop.counter}}" value="{{ or.material }}" readonly/>
+                      <input type="text" class='form-control' name="material_{{or.row}}_{{forloop.counter}}" value="{{ or.material }}" readonly/>
                     </td>
                     <td>
                       <!-- Input field for unit within the form -->
-                      <input type="text" class='form-control' name="unit_{{order.id}}_{{forloop.counter}}" value="{{ or.unit }}" readonly/>
+                      <input type="text" class='form-control' name="unit_{{or.row}}_{{forloop.counter}}" value="{{ or.unit }}" readonly/>
                     </td>
                     <td class="accordion">
                       <!-- Input field for quantity_per_piece within the form -->
-                      <input type="text" class='form-control' name="quantity_per_piece_{{order.id}}_{{forloop.counter}}" value="{{ or.quantity_per_piece }}"  readonly/>
+                      <input type="text" class='form-control' name="quantity_per_piece_{{or.row}}_{{forloop.counter}}" value="{{ or.quantity_per_piece }}"  readonly/>
                     </td>
                     <td>
                       <!-- Input field for order_quantity within the form -->
-                      <input type="number" class='form-control' name="order_quantity_{{order.id}}_{{forloop.counter}}" value="{{ or.order_quantity }}"  readonly/>
+                      <input type="number" class='form-control' name="order_quantity_{{or.row}}_{{forloop.counter}}" value="{{ or.order_quantity }}"  readonly/>
                     </td>
                     <td>
                       <!-- Input field for required within the form -->
-                      <input type="text" class='form-control'  name="required_{{order.id}}_{{forloop.counter}}" value="{{ or.required }}"  readonly/>
+                      <input type="text" class='form-control'  name="required_{{or.row}}_{{forloop.counter}}" value="{{ or.required }}"  readonly/>
                     </td>
                     <td>
                       <!-- Input field for available within the form -->
-                      <input type="text" class='form-control' name="available_{{order.id}}_{{forloop.counter}}" value="{{ or.available }}"  readonly/>
+                      <input type="text" class='form-control' name="available_{{or.row}}_{{forloop.counter}}" value="{{ or.available }}"  readonly/>
                     </td>
                     <td>
                       <!-- Input field for available within the form -->
-                      <input type="text" class='form-control' name="allocated_{{order.id}}_{{forloop.counter}}" value={{or.allocated}} readonly/>
+                      <input type="text" class='form-control' name="allocated_{{or.row}}_{{forloop.counter}}" value={{or.allocated}} readonly/>
                       
                     </td>
                     <td>
                       <!-- Input field for available within the form -->
-                      <input type="text" class='form-control' name="allocate_{{order.id}}_{{forloop.counter}}"  oninput="updateAllocate('{{order.id}}_{{forloop.counter}}')"/>
+                      <input type="text" class='form-control' name="allocate_{{or.row}}_{{forloop.counter}}"  oninput="updateAllocate('{{or.row}}_{{forloop.counter}}')" value="0" />
                       
                     </td>
                   </tr>
@@ -150,11 +152,15 @@
       var required = parseFloat(requiredField.value);
       var available = parseFloat(availableField.value);
       var allocate = parseFloat(allocateField.value);
-      var allocated = parseFloat(allocateField.value);
-
-      console.log(required,available,allocate,availableField)
+      var allocated = parseFloat(allocatedField.value);
+      var pending = required - allocated
+      console.log(allocated ,required)
       // Check if allocate is greater than required or available
-      if (allocate > required || allocate > available) {
+      if (allocate > required || allocate > available )  {
+          // If so, set allocate to 0
+          allocateField.value = 0;
+      }
+      if (allocate > pending)  {
           // If so, set allocate to 0
           allocateField.value = 0;
       }
@@ -162,7 +168,7 @@
   }
 </script>
 <script>
-  
+  console.log('hiiii')
 </script>
   <script>
     // Initialize Bootstrap components

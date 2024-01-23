@@ -13,10 +13,7 @@
   .card {
   margin-top: 50px;
   width: auto;
-  max-width: 100%; /* Adjust the maximum width as needed */
-  margin-left: auto;
-  margin-right: auto;
-  height: calc(100vh - 100px);
+
 }
 
   .card-header {
@@ -60,7 +57,6 @@ label {
     </div>
    
   <div class="card-body">
-  <div class="container" style="padding-top: 20px;">
     <h2>Material List</h2>
     <form method="get" action="{% url 'material_list' %}">
       {{ form.search }}
@@ -84,7 +80,6 @@ label {
             <td>{{ material.name }}</td>
             <td>{{ material.description }}</td>
             <td>{{ material.get_unit_of_measurement_display }}</td>
-            <td>{{ material.unit_cost }}</td>
             <td>{{ material.unit_cost }}</td>
             <td>
               <!-- Button to delete the material -->

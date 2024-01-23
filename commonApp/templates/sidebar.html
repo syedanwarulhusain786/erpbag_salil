@@ -1,4 +1,25 @@
 {% load static %}
+
+
+<style>
+  .sidebar-link {
+      text-decoration: none;
+      color: #000; /* Adjust the color as needed */
+      display: flex;
+      align-items: center;
+  }
+
+  .sidebar-link i {
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 10px; /* Adjust the spacing between the icon and text */
+  }
+
+
+  .hide-menu {
+      display: inline-block;
+  }
+</style>
 <aside class="left-sidebar with-vertical">
     <div><!-- ---------------------------------- -->
       <!-- Start Vertical Layout Sidebar -->
@@ -138,7 +159,7 @@
 
     <li class="nav-small-cap">
       <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-      <span class="hide-menu">Master</span>
+      <span class="hide-menu">Accounts</span>
     </li>
 
     <li class="sidebar-item">
@@ -220,7 +241,7 @@
         </li>
 
         <li class="sidebar-item">
-          <a href="{% url 'purchaseOrder' %}" class="sidebar-link">
+          <a href="{% url 'purchase-invoices' %}" class="sidebar-link">
             <div class="round-16 d-flex align-items-center justify-content-center">
               <i class="ti ti-circle"></i>
             </div>
@@ -330,7 +351,7 @@
     <li class="sidebar-item">
       <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
         <span class="d-flex">
-          <i class="ti ti-credit-card-pay"></i>
+          <i class="ti ti-receipt"></i>
         </span>
         <span class="hide-menu">Reciept Voucher</span>
       </a>
@@ -357,6 +378,345 @@
         
       </ul>
     </li>
+    <li class="sidebar-item">
+      <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+        <span class="d-flex">
+          <i class="ti ti-shopping-cart"></i>
+        </span>
+        <span class="hide-menu">Accounts</span>
+      </a>
+      <ul aria-expanded="false" class="collapse first-level">
+        
+
+        <li class="sidebar-item">
+          <a href="{% url 'generalLedger' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">General Ledger</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="{% url 'LedgerEntries' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Ledger Entries</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="{% url 'journal-entries' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Journal Entries</span>
+          </a>
+        </li>
+      </ul>
+        
+
+
+
+    </li>
+
+    <!-- <li class="sidebar-item">
+      <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+        <span class="d-flex">
+          <i class="ti ti-credit-card"></i>
+        </span>
+        <span class="hide-menu">Credit Note Voucher</span>
+      </a>
+      <ul aria-expanded="false" class="collapse first-level">
+        <li class="sidebar-item">
+          <a href="{% url 'credit-note' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Add Credit Note </span>
+          </a>
+        </li>
+  
+        <li class="sidebar-item">
+          <a href="{% url 'credit-note-entries' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">View Credit Notes </span>
+          </a>
+        </li>
+
+        
+      </ul>
+    </li>
+
+
+
+
+    <li class="sidebar-item">
+      <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+        <span class="d-flex">
+          <i class="ti ti-clipboard"></i>
+        </span>
+        <span class="hide-menu">Debit Note Voucher</span>
+      </a>
+      <ul aria-expanded="false" class="collapse first-level">
+        
+        <li class="sidebar-item">
+          <a href="{% url 'debit-note' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Add Debit Note</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item">
+          <a href="{% url 'debit-note-entries' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">View Debit Note</span>
+          </a>
+        </li>
+        
+        
+      </ul>
+    </li> -->
+
+
+
+
+
+
+
+
+
+<!--     
+    <li class="sidebar-item">
+      <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+        <span class="d-flex">
+          <i class="ti ti-zoom-money"></i>
+        </span>
+        <span class="hide-menu">Financial Statements</span>
+      </a>
+      <ul aria-expanded="false" class="collapse first-level">
+        <li class="sidebar-item">
+          <a href="{% url 'list_services' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Balance Sheet</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="{% url 'list_services' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Profit and Loses</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="{% url 'list_services' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Chart Of Accounts</span>
+          </a>
+        </li>
+
+        
+      </ul>
+    </li> -->
+
+
+
+
+
+
+    <!-- <li class="sidebar-item">
+      <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+        <span class="d-flex">
+          <i class="ti ti-report"></i>
+        </span>
+        <span class="hide-menu">Reports</span>
+      </a>
+      <ul aria-expanded="false" class="collapse first-level">
+        <li class="sidebar-item">
+          <a href="{% url 'list_services' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Account Ledger Report</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="{% url 'list_services' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Payment Reports</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="{% url 'list_services' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Reciept Report</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="{% url 'list_services' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Journal Report</span>
+          </a>
+        </li>
+        
+        <li class="sidebar-item">
+          <a href="{% url 'list_services' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Purchase Invoice Report</span>
+          </a>
+        </li>
+
+
+        <li class="sidebar-item">
+          <a href="{% url 'list_services' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Purchase Return Report</span>
+          </a>
+        </li>
+
+
+
+        <li class="sidebar-item">
+          <a href="{% url 'list_services' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Sale Invoice Report</span>
+          </a>
+        </li>
+
+
+        <li class="sidebar-item">
+          <a href="{% url 'list_services' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Sale Return Report</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item">
+          <a href="{% url 'list_services' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Stock Report</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="{% url 'list_services' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Cash/Bank Report</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="{% url 'list_services' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Tax Report</span>
+          </a>
+        </li>
+        
+
+        <li class="sidebar-item">
+          <a href="{% url 'list_services' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Cheque Report</span>
+          </a>
+        </li>
+        
+
+        <li class="sidebar-item">
+          <a href="{% url 'list_services' %}" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Day Book</span>
+          </a>
+        </li>
+        
+
+
+
+
+      </ul>
+    </li> -->
+
+
+
+
+<!--     
+    <li class="sidebar-item">
+      <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+        <span class="d-flex">
+          <i class="ti ti-settings"></i>
+        </span>
+        <span class="hide-menu">Settings</span>
+      </a>
+      <ul aria-expanded="false" class="collapse first-level">
+
+
+        <li class="sidebar-item">
+          <a href="eco-shop.html" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Email Setting</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="eco-shop.html" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Bank Account</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="eco-shop-detail.html" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Financial Year</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="eco-product-list.html" class="sidebar-link">
+            <div class="round-16 d-flex align-items-center justify-content-center">
+              <i class="ti ti-circle"></i>
+            </div>
+            <span class="hide-menu">Countries</span>
+          </a>
+        </li>
+
+        
+      </ul>
+    </li> -->
 
 
 
@@ -441,7 +801,7 @@
   <li class="sidebar-item">
     <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
       <span class="d-flex">
-        <i class="ti ti-brand-producthunt"></i>
+        <i class="ti ti-package"></i>
       </span>
       <span class="hide-menu">Stock Entries</span>
     </a>
@@ -486,6 +846,18 @@
           <span class="hide-menu">Stock Report</span>
         </a>
       </li>
+      <li class="sidebar-item">
+        <a href="{% url 'jobList' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Job List</span>
+        </a>
+      </li>
+      
+
+
+
     </ul>
   </li>
 
@@ -499,7 +871,7 @@
   <li class="sidebar-item">
     <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
       <span class="d-flex">
-        <i class="ti ti-brand-producthunt"></i>
+        <i class="ti ti-shopping-cart"></i>
       </span>
       <span class="hide-menu">Accepted Order</span>
     </a>
@@ -510,6 +882,14 @@
             <i class="ti ti-circle"></i>
           </div>
           <span class="hide-menu">Accepted Orders</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="{% url 'pendingallocate' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Pending Allocation</span>
         </a>
       </li>
       <li class="sidebar-item">
@@ -551,7 +931,7 @@
 
 </ul>
 {% endif %}
-
+<!-- 
 {% if user.department.name == "HRD" or user.department.name == "ACCOUNT" %}
 <li class="nav-small-cap">
   <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -588,7 +968,7 @@
 
 
 
-<!-- 
+
       <li class="sidebar-item">
         <a href="{% url 'list_services' %}" class="sidebar-link">
           <div class="round-16 d-flex align-items-center justify-content-center">
@@ -610,11 +990,69 @@
 
 
 
+<!-- </ul> -->
+
+
+
+<!-- {% endif %} --> 
+
+
+
+
+
+
+
+
+
+{% if user.department.name == "PRODUCTION" or user.department.name == "ACCOUNT" %}
+<li class="nav-small-cap">
+  <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+  <span class="hide-menu">PRODUCTION</span>
+</li>
+  <ul id="sidebarnav">
+
+  <li class="sidebar-item">
+    <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+      <span class="d-flex">
+        <i class="ti ti-brand-producthunt"></i>
+      </span>
+      <span class="hide-menu">Orders In Queue</span>
+    </a>
+    <ul aria-expanded="false" class="collapse first-level">
+      <li class="sidebar-item">
+        <a href="{% url 'pendingOrder' %}" class="sidebar-link">
+          <div class="round-16 d-flex align-items-center justify-content-center">
+            <i class="ti ti-circle"></i>
+          </div>
+          <span class="hide-menu">Order Reports</span>
+        </a>
+      </li>
+
+    </ul>
+  </li>
+
+
+
 </ul>
 
 
 
 {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </nav>
 

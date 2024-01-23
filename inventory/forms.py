@@ -101,6 +101,14 @@ class ProductMaterialForm(forms.ModelForm):
         'quantity_per_piece': forms.NumberInput(attrs={'class': 'form-control'}),
     }
 
+    def __init__(self, *args, **kwargs):
+        super(ProductMaterialForm, self).__init__(*args, **kwargs)
+
+        # Adding Bootstrap form group to all fields
+        for field_name, field in self.fields.items():
+            self.fields[field_name].widget.attrs['class'] = 'form-control form-group'
+            self.fields[field_name].widget.attrs['placeholder'] = field.label
+
             
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -168,4 +176,37 @@ class AddProductStockForm(forms.ModelForm):
         super(AddProductStockForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
+# forms.py
+from django import forms
+from .models import JobList
 
+class SendMaterialForm(forms.ModelForm):
+    class Meta:
+        model = JobList
+        fields = ['supplier', 'material_send', 'quantity_sent', 'price_send', 'sent_date']
+        widgets = {
+            'sent_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'supplier': forms.Select(attrs={'class': 'form-control'}),
+            'material_send': forms.Select(attrs={'class': 'form-control'}),
+            'quantity_sent': forms.NumberInput(attrs={'class': 'form-control'}),
+            'price_send': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+class ReceiveMaterialForm(forms.ModelForm):
+    class Meta:
+        model = JobList
+        fields = ['supplier', 'material_send', 'quantity_sent', 'price_send', 'material_received', 'sent_date', 'quantity_received', 'price_received', 'received_date']
+        widgets = {
+            'supplier': forms.Select(attrs={'class': 'form-control'}),
+            'material_send': forms.Select(attrs={'class': 'form-control'}),
+            'quantity_sent': forms.NumberInput(attrs={'class': 'form-control'}),
+            'price_send': forms.NumberInput(attrs={'class': 'form-control'}),
+            'material_received': forms.Select(attrs={'class': 'form-control'}),
+            'sent_date': forms.DateInput(attrs={'class': 'form-control'}),
+            'quantity_received': forms.NumberInput(attrs={'class': 'form-control'}),
+            'price_received': forms.NumberInput(attrs={'class': 'form-control'}),
+            'received_date': forms.DateInput(attrs={'class': 'form-control' , 'type': 'date'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(ReceiveMaterialForm, self).__init__(*args, **kwargs)
+        

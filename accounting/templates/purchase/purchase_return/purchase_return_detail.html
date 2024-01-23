@@ -72,6 +72,42 @@
         </div>
       </div>
     </div>
+    <h3>Items in Purchase</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Product</th>
+
+          <th>Material</th>
+          <th>Quantity</th>
+          <th>Total Price</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in purchaseRow %}
+          <tr>
+            <td>{{ item.product.name }}</td>
+
+            <td>{{ item.material.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.total_price }}</td>
+            
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
 
     <h3>Items Returned</h3>
     <table class="table">
@@ -94,10 +130,10 @@
             <td>{{ item.quantity }}</td>
             <td>{{ item.total_price }}</td>
             <td>
-              <!-- <form method="post" action="{% url 'delete_purchase_return_item' item.id %}">
+              <form method="post" action="{% url 'delete_purchase_return_item' item.id %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">Delete</button>
-              </form> -->
+              </form>
             </td>
           </tr>
         {% endfor %}

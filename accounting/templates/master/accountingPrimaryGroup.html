@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <style>
   body {
@@ -43,7 +44,8 @@
 
       <table class="table table-striped" id="productsTable">
         <div>
-          <button type="button" class="mb-1 btn btn-pill btn-primary"  onclick="addNew()">Add New Primary Group</button>
+          <button type="button" class="mb-1 btn btn-pill btn-primary" id="openModalBtn">Add New Primary Group</button>
+          
         </div>
         <thead>
           <tr>
@@ -89,7 +91,7 @@
         <h5 class="modal-title" id="subTableModalLabel">
           <h2>Add New Primary Group</h2>
         </h5>
-        <button type="button" class="close" onclick="close()" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" id="closeModalBtn" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -119,7 +121,7 @@
       <div class="modal-footer">
           <button type="submit" class="mb-1 btn btn-pill btn-success" name="save">Save</button>
         </form>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal"  onclick="close()">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"  id="closeModalBtn1" >Close</button>
       </div>
     </div>
   </div>
@@ -135,7 +137,7 @@
           <h2>Delete Account</h2>
         </h5>
         <button type="button" class="close" id="closeModals" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span aria-hidden="true" onclick="close()">&times;</span>
         </button>
       </div>
       <form method="POST">
@@ -158,17 +160,5 @@
   </div>
 </div>
 <script src="{% static '\home\js\primaryGroup.js' %}"></script>
-<script>
-  function addNew() {
-    document.getElementById("accountModal").style.display = "block"
-  }
 
-
-</script>
-<script>
-
-  function close() {
-    document.getElementById("accountModal").style.display = "none"
-  }
-</script>
 {% endblock %}

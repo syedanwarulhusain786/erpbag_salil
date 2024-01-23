@@ -59,6 +59,74 @@ def department_required(allowed_departments):
 
 from django.shortcuts import render, redirect
 from .forms import MaterialStockForm, ProductStockForm, AddMaterialStockForm, AddProductStockForm
+from .models import JobList
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+
+def jobIn(request, job_id):
+    joblist_entry = get_object_or_404(JobList, pk=job_id)
+
+    if request.method == 'POST':
+        form = ReceiveMaterialForm(request.POST, instance=joblist_entry)
+        if form.is_valid():
+            job=form.save()
+            material_stock = MaterialStock.objects.get_or_create(
+            type='purchase',
+            material=job.material_received,
+            content_type=ContentType.objects.get_for_model(JobList),
+            object_id=job.id,
+            quantity=Decimal(job.quantity_received),
+            cost_of_single=Decimal(job.quantity_received/job.price_received),
+            )
+            return redirect('jobList')  # Redirect to the appropriate page after successful update
+        else:
+            print(form.errors)
+            
+    else:
+        form = ReceiveMaterialForm(instance=joblist_entry)
+    form.fields['sent_date'].widget.attrs['readonly'] = True
+    
+    form.fields['supplier'].widget.attrs['readonly'] = True
+    form.fields['material_send'].widget.attrs['readonly'] = True
+    form.fields['quantity_sent'].widget.attrs['readonly'] = True
+    form.fields['price_send'].widget.attrs['readonly'] = True
+
+    return render(request, 'jobwork/job_in.html', {'form': form})
+
+def jobOut(request):
+    if request.method == 'POST':
+        form = SendMaterialForm(request.POST)
+        if form.is_valid():
+            job = form.save()
+            material_stock = MaterialStock.objects.get_or_create(
+            type='prod',
+            material=job.material_send,
+            content_type=ContentType.objects.get_for_model(JobList),
+            object_id=job.id,
+            quantity=Decimal(job.quantity_sent),
+            cost_of_single=Decimal(job.quantity_sent/job.price_send),
+            )
+            return HttpResponseRedirect(reverse('jobList'))
+    else:
+        form = SendMaterialForm()
+
+    return render(request, 'jobwork/job_out.html', {'form': form})
+def jobList(request):
+    joblist=JobList.objects.all()
+
+    return render(request, 'jobwork/jobsList.html', {'joblist':joblist})
+
+
+
+
+
+
+
+
+
+
+
+
 
 def create_material_stock(request):
     if request.method == 'POST':
@@ -780,6 +848,7 @@ def acceptedsales_list(request):
         # Create a dictionary for the sale foreign key if it doesn't exist in the dictionary
         if sale_key not in sales_with_items:
             sales_with_items[sale_key] = {
+                'Order_Status':item_row.sale.Order_Status,
                 'status':item_row.sale.status,
                 'sale_number': item_row.sale.sale_number,
                 'customer_name': item_row.sale.customer_name,
@@ -827,7 +896,55 @@ from django.db.models import Sum, F, Case, When, Value, IntegerField
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Sum, Case, When, Value, IntegerField, F
 from .models import   ProductMaterial, MaterialStock, AllocateMaterial, Material
+def saveallocate(request,sales_id,row_id,needed_len):
+    if request.method == 'POST':
+       for index in range(1,needed_len+1):
+        row=row_id
+        material = request.POST.get(f'material_{row}_{index}')
+        unit = request.POST.get(f'unit_{row}_{index}')
+        quantity_per_piece = float(request.POST.get(f'quantity_per_piece_{row}_{index}'))
+        order_quantity = float(request.POST.get(f'order_quantity_{row}_{index}'))
+        required = float(request.POST.get(f'required_{row}_{index}'))
+        available = float(request.POST.get(f'available_{row}_{index}'))
+        allocate = float(request.POST.get(f'allocate_{row}_{index}'))
+        # Check if the necessary form fields are present before attempting allocation
+        if material is not None and unit is not None and quantity_per_piece is not None \
+                and order_quantity is not None and required is not None and available is not None:
+            # Use get_or_create to either retrieve the existing record or create a new one
+            allo, created = AllocateMaterial.objects.get_or_create(
+                idx=f"{row}_{sales_id}_{index}",
+                rowItem=get_object_or_404(ItemRow, id=row),
+                
+                sales=get_object_or_404(Sales, sale_number=sales_id),
+                material=Material.objects.get(name=material),
+                defaults={
+                    'unit': unit,
+                    'quantity_per_piece': quantity_per_piece,
+                    'order_quantity': order_quantity,
+                    'required': required,
+                    'available': available,
+                    'allocated': allocate
+                }
+            )
+            
 
+            # If the record already exists, update the fields
+            if not created:
+                
+                allo.unit = unit
+                allo.quantity_per_piece = quantity_per_piece
+                allo.order_quantity = order_quantity
+                allo.required = required
+                allo.available = available
+                allo.allocated = allo.allocated+allocate
+
+                allo.save()
+    return redirect('allocate',sales_id)  
+    # # except:
+    #                 #     print('qw')
+    #                 #     pass
+    #     # except:
+    #     #     pass
 def allocate(request, sales_id):
     sales_orders = ItemRow.objects.select_related('sale').filter(sale__sale_number=sales_id)
     status = get_object_or_404(Sales, sale_number=sales_id).status
@@ -857,6 +974,7 @@ def allocate(request, sales_id):
             )['total_quantity'] or 0
 
             needed.append({
+                'row':order.id,
                 'material': mat.material.name,
                 'unit': mat.material.unit_of_measurement,
                 'quantity_per_piece': float(mat.quantity_per_piece),
@@ -867,73 +985,42 @@ def allocate(request, sales_id):
 
         final.append({
             'id': count,
+            'needed_len':len(needed),
+            'row':order.id,
             'Product': order.product_name.strip(),
             'needed': needed,
         })
         count += 1
 
-    if request.method == 'POST':
-        # try:
-            for i in final:
-                count = len(i['needed'])
-
-                for index in range(1, count + 1):
-                    try:
-                        material = request.POST.get(f'material_{i["id"]}_{index}')
-                        unit = request.POST.get(f'unit_{i["id"]}_{index}')
-                        quantity_per_piece = float(request.POST.get(f'quantity_per_piece_{i["id"]}_{index}'))
-                        order_quantity = float(request.POST.get(f'order_quantity_{i["id"]}_{index}'))
-                        required = float(request.POST.get(f'required_{i["id"]}_{index}'))
-                        available = float(request.POST.get(f'available_{i["id"]}_{index}'))
-                        allocate = float(request.POST.get(f'allocate_{i["id"]}_{index}'))
-                        # Check if the necessary form fields are present before attempting allocation
-                        if material is not None and unit is not None and quantity_per_piece is not None \
-                                and order_quantity is not None and required is not None and available is not None:
-                            # Use get_or_create to either retrieve the existing record or create a new one
-                            allo, created = AllocateMaterial.objects.get_or_create(
-                                sales=sales_id,
-                                material=material,
-                                defaults={
-                                    'unit': unit,
-                                    'quantity_per_piece': quantity_per_piece,
-                                    'order_quantity': order_quantity,
-                                    'required': required,
-                                    'available': available,
-                                    'allocated': allocate
-                                }
-                            )
-
-                            # If the record already exists, update the fields
-                            if not created:
-                                allo.unit = unit
-                                allo.quantity_per_piece = quantity_per_piece
-                                allo.order_quantity = order_quantity
-                                allo.required = required
-                                allo.available = available
-                                allo.allocated += allocate
-
-                            allo.save()
-                    except:
-                        pass
-        # except:
-        #     pass
+    
     # Fetch the latest allocated data
     allocated_data = AllocateMaterial.objects.filter(sales=sales_id).values()
-
     # Update the 'needed' list with the latest allocated data
+    # Update the 'needed' list with the latest allocated data
+    # Update the 'needed' list with the latest allocated data
+    print(final,allocated_data)
     for product_data in final:
-        for material_data in product_data['needed']:
-            allocated = next((data['allocated'] for data in allocated_data if data['material'] == material_data['material']), 0)
+        for ind,material_data in enumerate(product_data['needed']):
+            index=ind+1
+            idx=f"{material_data['row']}_{sales_id}_{index}"
+            allocated_data = AllocateMaterial.objects.filter(idx=idx).values()
+            allocated = next((data['allocated'] for data in allocated_data if Material.objects.get(id=data['material_id'] ).name== material_data['material']), 0)
             material_data['allocated'] = allocated
 
     return render(request, 'Orders/allocate.html', {'success_messages':success_messages,'final': final, 'sales_id': sales_id, 'status': status})
 
-
-
+def pendingallocate(request):
+    allocate=AllocateMaterial.objects.filter(status='Pending')
+    sales_id=list(set([sale.sales for sale in allocate]))
+    allocated=[]
+    for i in sales_id:
+        sale=Sales.objects.get(sale_number=i.sale_number)
+        allocated.append(sale)
+    return render(request, 'Orders/pendingAllocate.html', {'allocate':allocated})
 from django.db.models import Min
 def start_production(request, sales_id):
     # Retrieve the allocated materials for the specified sales ID
-    sales = Sales.objects.filter(sale_number=sales_id)
+    sales = Sales.objects.get(sale_number=sales_id)
     allocated_materials = AllocateMaterial.objects.filter(sales=sales_id)
     # success_messages = messages.get_messages(request)   
     # Check if there are allocated materials
@@ -946,7 +1033,6 @@ def start_production(request, sales_id):
             
             if allocated_material.allocated <1:
                 
-                print(allocated_material.allocated)
                 messages.success(request, 'All Material Have to be Alloted to some Amt')
                 return redirect('allocate',sales_id)  
         prod=Production()
@@ -964,11 +1050,14 @@ def start_production(request, sales_id):
                 material_stock = MaterialStock.objects.get_or_create(
                 type='prod',
                 material=name,
+                content_type=ContentType.objects.get_for_model(AllocateMaterial),
+                object_id=allocated_material.id,
                 quantity=Decimal(allocated_material.allocated),
                 cost_of_single=Decimal(cost_of_single),
                 )
         messages.success(request, 'Order is Successfully Started')
-        
+        sales.Order_Status='inProduction'
+        sales.save()
         return redirect('allocate',sales_id)
     #     messages.success(request, 'Materials status updated and production started successfully.')
     # else:

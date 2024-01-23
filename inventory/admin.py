@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Material,AllocateMaterial, ProductCategory, Product, ServiceCategory, Service,ProductBrand,ProductMaterial,MaterialStock, ProductStock
+from .models import JobList, Material,AllocateMaterial, ProductCategory, Product, ServiceCategory, Service,ProductBrand,ProductMaterial,MaterialStock, ProductStock
 
 class ProductDetailsAdmin(admin.ModelAdmin):
     list_display = ('name', 'productCost', 'productSelling', 'category')
@@ -41,6 +41,8 @@ class ServiceAdmin(admin.ModelAdmin):
 
 admin.site.register(Product, ProductDetailsAdmin)
 admin.site.register(AllocateMaterial)
+admin.site.register(JobList)
+
 
 
 

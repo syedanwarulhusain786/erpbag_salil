@@ -1,117 +1,121 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<!-- Invoice 1 - Bootstrap Brain Component -->
-<section class="py-3 py-md-5">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-lg-9 col-xl-8 col-xxl-7">
-        <div class="row gy-3 mb-3">
-          <div class="col-6">
-            <h2 class="text-uppercase text-endx m-0">Invoice</h2>
-          </div>
-          <div class="col-6">
-            <a class="d-block text-end" href="#!">
-              <img src="./assets/img/bsb-logo.svg" class="img-fluid" alt="BootstrapBrain Logo" width="135" height="44">
-            </a>
-          </div>
-          <div class="col-12">
-            <h4>Supplier Detail</h4>
-            <address>
-              <strong>{{ purchase_invoice.supplier }}</strong><br>
-              875 N Coast Hwybr<br>
-              Laguna Beach, California, 92651<br>
-              United States<br>
-              Phone: {{ purchase_invoice.SupplierMobile }}<br>
-              Email: {{ purchase_invoice.SupplierEmail }}
-            </address>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-12 col-sm-6 col-md-8">
-            <!-- <h4>Bill To</h4>
-            <address>
-              <strong>Mason Carter</strong><br>
-              {{ purchase_invoice.BillingAddress }}<br>
-              Kansas City, Mississippi, 64151<br>
-              United States<br>
-              Phone: (816) 741-5790<br>
-              Email: email@client.com
-            </address> -->
-          </div>
-          <div class="col-12 col-sm-6 col-md-4">
-            <h4 class="row">
-              <span class="col-6">Invoice #</span>
-              <span class="col-6 text-sm-end">{{ purchase_invoice.PurchaseVoucherNumber }}</span>
-            </h4>
-            <div class="row">
-              <span class="col-6">Account</span>
-              <span class="col-6 text-sm-end">786-54984</span>
-              <span class="col-6">Order ID</span>
-              <span class="col-6 text-sm-end">#{{ purchase_invoice.InvoiceNumber }}</span>
-              <span class="col-6">Invoice Date</span>
-              <span class="col-6 text-sm-end">{{ purchase_invoice.InvoiceDate }}</span>
-              <span class="col-6">Due Date</span>
-              <span class="col-6 text-sm-end">{{ purchase_invoice.dueDate }}</span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-12">
-            <div class="table-responsive">
-              <table class="table table-striped">
-                <thead>
-                  <tr>    
-                    <th scope="col" class="text-uppercase">Sr No</th>
 
-                    <th scope="col" class="text-uppercase">Product Description</th>
-                    <th scope="col" class="text-uppercase">Quantity</th>
-                    <th scope="col" class="text-uppercase text-end">Unit Price</th>
-                    <th scope="col" class="text-uppercase text-end">Total Price</th>
-                  </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                  {% for item in purchase_invoice.items.all %}
-                  <tr>
-                    <td>{{ forloop.counter }}</td>
-
-                    <td>{{ item.product_description }}</td>
-                    <td class="text-end">{{ item.quantity }}</td>
-                    <td class="text-end">{{ item.unit_price }}</td>
-                    <td class="text-end">{{ item.total_price }}</td>
-                  </tr>
-                {% endfor %}
-            
-                  <tr>
-                    <td></td>
-                    <td colspan="3" class="text-end">Subtotal</td>
-                    <td class="text-end">{{ purchase_invoice.SubTotal }}</td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td colspan="3" class="text-end">VAT (5%)</td>
-                    <td class="text-end">{{ purchase_invoice.Vat }}</td>
-                  </tr>
-                
-                  <tr>
-                    <td></td>
-                    <th scope="row" colspan="3" class="text-uppercase text-end">Total</th>
-                    <td class="text-end">Rs {{ purchase_invoice.FinalAmount }}</td>
-                  </tr>
-                </tbody>
-              </table>
+    <div class="card">
+        <div class="card-header">
+            <h4>Purchase Invoice Details</h4>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="purchaseVoucherNumber">Purchase Voucher Number:</label>
+                    <input type="text" id="purchaseVoucherNumber" class="form-control" value="{{ purchase_invoice.PurchaseVoucherNumber }}" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label for="purchaseVoucherDate">Purchase Voucher Date:</label>
+                    <input type="text" id="purchaseVoucherDate" class="form-control" value="{{ purchase_invoice.PurchaseVoucherDate }}" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label for="dueDate">Purchase Due Date:</label>
+                    <input type="text" id="dueDate" class="form-control" value="{{ purchase_invoice.dueDate }}" readonly>
+                </div>
             </div>
-          </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="invoiceNumber">Invoice Number:</label>
+                    <input type="text" id="invoiceNumber" class="form-control" value="{{ purchase_invoice.InvoiceNumber }}" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label for="invoiceDate">Invoice Date:</label>
+                    <input type="text" id="invoiceDate" class="form-control" value="{{ purchase_invoice.InvoiceDate }}" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label for="totalBalance">Total Balance:</label>
+                    <input type="text" id="totalBalance" class="form-control" value="{{ purchase_invoice.balance }}" readonly>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="supplierMobile">Supplier Mobile:</label>
+                    <input type="text" id="supplierMobile" class="form-control" value="{{ purchase_invoice.SupplierMobile }}" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label for="supplierEmail">Supplier Email:</label>
+                    <input type="text" id="supplierEmail" class="form-control" value="{{ purchase_invoice.SupplierEmail }}" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label for="supplierAddress">Supplier Address:</label>
+                    <input type="text" id="supplierAddress" class="form-control" value="{{ purchase_invoice.SupplierAddress }}" readonly>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="billingAddress">Billing Address:</label>
+                    <input type="text" id="billingAddress" class="form-control" value="{{ purchase_invoice.BillingAddress }}" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label for="subTotal">Sub Total:</label>
+                    <input type="text" id="subTotal" class="form-control" value="{{ purchase_invoice.SubTotal }}" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label for="vat">Tax:</label>
+                    <input type="text" id="vat" class="form-control" value="{{ purchase_invoice.Vat }}" readonly>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="finalAmount">Final Amount:</label>
+                    <input type="text" id="finalAmount" class="form-control" value="{{ purchase_invoice.FinalAmount }}" readonly>
+                </div>
+                <!-- Add more rows as needed -->
+            </div>
         </div>
-        <div class="row">
-          <div class="col-12 text-end">
-            <button type="submit" class="btn btn-primary mb-3"  onclick="window.print()">Download Invoice</button>
-          </div>
-        </div>
-      </div>
+    </div>
+
+
+
+<div class="card" style="padding-top: 20px;">
+  <div class="table-responsive">
+    <input type="hidden" id="count" name="count" value="1">
+    <table class="table table-bordered" id="transactionTable">
+      <thead>
+          <tr>
+              <th>Product Name</th>
+              <th>Description</th>
+              <th>Quantity</th>
+              <th>Unit Price</th>
+              <th>Total Price</th>
+              <th>Tax</th>
+
+              <!-- Add more headers as needed -->
+              <!-- Example: <th>Additional Header</th> -->
+          </tr>
+      </thead>
+      <tbody>
+          {% for item in purchase_invoice.items.all %}
+          <tr>
+              <td>{{ item.product_name }}</td>
+              <td>{{ item.product_description }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.unit_price }}</td>
+              <td>{{ item.total_price }}</td>
+              <td>{{ item.taxPerPiece }}</td>
+
+
+              <!-- Add more columns as needed -->
+              <!-- Example: <td>{{ item.additional_field }}</td> -->
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
     </div>
   </div>
-</section>
+
 
 
 

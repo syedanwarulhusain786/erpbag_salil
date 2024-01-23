@@ -237,9 +237,56 @@ class PurchaseInvoiceItemRow(models.Model):
     unit_price = models.CharField(max_length=255)
     total_price = models.CharField(max_length=255)
     taxPerPiece = models.CharField(max_length=255)
-    
-      
+    stock = GenericRelation(ProductStock)
+    material_stock = GenericRelation(MaterialStock)
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
 
+        # Create or update ProductStock instance
+        if self.product:
+            product_stock, created = ProductStock.objects.get_or_create(
+                type='purchase',
+                content_type=ContentType.objects.get_for_model(self),
+                object_id=self.id,
+                product=self.product,
+                defaults={
+                    'quantity': self.quantity,
+                    'cost_of_single': self.unit_price,
+                }
+            )
+
+            # If the instance already exists, update the fields
+            if not created:
+                product_stock.quantity = self.quantity
+                product_stock.cost_of_single = self.unit_price
+                product_stock.save()
+        elif self.material:
+            product_stock, created = MaterialStock.objects.get_or_create(
+                type='purchase',
+                content_type=ContentType.objects.get_for_model(self),
+                object_id=self.id,
+                material=self.material,
+                defaults={
+                    'quantity': self.quantity,
+                    'cost_of_single': self.unit_price,
+                }
+            )
+
+            # If the instance already exists, update the fields
+            if not created:
+                product_stock.quantity = self.quantity
+                product_stock.cost_of_single = self.unit_price
+                product_stock.save()
+        else:
+            pass
+    
+    def delete(self, *args, **kwargs):
+            # Delete related ProductStock instances
+        self.stock.all().delete()
+        self.material_stock.all().delete()
+        
+
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return f"{self.product_description} - {self.quantity} units"
@@ -267,13 +314,55 @@ class PurchaseReturnItem(models.Model):
     quantity = models.PositiveIntegerField()
     cost_of_single = models.CharField(max_length=255)
     total_price = models.CharField(max_length=255)
+    stock = GenericRelation(ProductStock)
+    material_stock = GenericRelation(MaterialStock)
 
     def __str__(self):
         return f"Return Item for {self.material} - {self.quantity} units"
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+         # Create or update ProductStock instance
+        if self.product:
+            product_stock, created = ProductStock.objects.get_or_create(
+                type='return',
+                content_type=ContentType.objects.get_for_model(self),
+                object_id=self.id,
+                product=self.product,
+                defaults={
+                    'quantity': Decimal(self.quantity),
+                    'cost_of_single': Decimal(self.cost_of_single),
+                }
+            )
+
+            # If the instance already exists, update the fields
+            if not created:
+                product_stock.quantity = Decimal(self.quantity),
+                product_stock.cost_of_single = Decimal(self.cost_of_single),
+                product_stock.save()
+        elif self.material:
+            product_stock, created = MaterialStock.objects.get_or_create(
+                type='return',
+                content_type=ContentType.objects.get_for_model(self),
+                object_id=self.id,
+                material=self.material,
+                defaults={
+                    'quantity': Decimal(self.quantity),
+                    'cost_of_single': Decimal(self.cost_of_single),
+                }
+            )
+
+            # If the instance already exists, update the fields
+            if not created:
+                product_stock.quantity = Decimal(self.quantity)
+                product_stock.cost_of_single = self.cost_of_single
+                product_stock.save()
+        else:
+            pass
         self.purchase_return.update_total_value()
     def delete(self, *args, **kwargs):
+            # Delete related ProductStock instances
+        self.stock.all().delete()
+        self.material_stock.all().delete()
         super().delete(*args, **kwargs)
         self.purchase_return.update_total_value()
     

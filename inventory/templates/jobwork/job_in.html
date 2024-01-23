@@ -1,0 +1,107 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+
+    }
+  
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      position: relative;
+    }
+  
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  
+    /* Add more styling as needed */
+  </style>
+<div class="card" style="padding-top: 100px;">
+    <div class="card-header">
+        <h1 class="card-title">Job IN Form</h1>
+    </div>
+    <form method="post"  class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4" >
+                {{ form.sent_date.label_tag }}
+                {{ form.sent_date }}
+            </div>
+            <div class="col-md-4">
+                {{ form.supplier.label_tag }}
+                {{ form.supplier }}
+            </div>
+            <div class="col-md-4">
+                {{ form.material_send.label_tag }}
+                {{ form.material_send }}
+            </div>
+            
+            
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                {{ form.quantity_sent.label_tag }}
+                {{ form.quantity_sent }}
+            </div>
+            <div class="col-md-4">
+                {{ form.price_send.label_tag }}
+                {{ form.price_send }}
+            </div>
+            <div class="col-md-4">
+                {{ form.material_received.label_tag }}
+                {{ form.material_received }}
+            </div>
+            
+        </div>
+        <div class="row">
+
+            <div class="col-md-4">
+                {{ form.quantity_received.label_tag }}
+                {{ form.quantity_received }}
+            </div>
+            <div class="col-md-4">
+                {{ form.price_received.label_tag }}
+                {{ form.price_received }}
+            </div>
+            <div class="col-md-4">
+                {{ form.received_date.label_tag }}
+                {{ form.received_date }}
+            </div>
+        </div>
+  
+        
+        <div style="padding-top: 20px;">
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        </div>
+    </form>
+</div>
+<script>
+    function handleColorTheme(e) {
+      $("html").attr("data-color-theme", e);
+      $(e).prop("checked", !0);
+    }
+  </script>
+
+
+<script src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/js/datatable/datatable-basic.init.js"></script>
+{% endblock %}

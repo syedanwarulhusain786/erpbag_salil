@@ -1,0 +1,465 @@
+<!-- sales_quotation_list.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      position: relative;
+    }
+  
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  
+    /* Add more styling as needed */
+  </style>
+
+    <h2>Sales Order Details</h2>
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5 class="card-title">Sales Order Information</h5>
+      </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+                
+                <p class="card-text"><strong>Quotation Number:</strong> {{ sales_quotation.quotation_number }}</p>
+                <p class="card-text"><strong>Customer:</strong> {{ sales_quotation.customer }}</p>
+            </div>
+            <div class="col-md-6">
+              <h5 class="card-title"></h5>
+
+                <p class="card-text"><strong>Billing Address:</strong> {{ sales_quotation.billing_address }}</p>
+                <p class="card-text"><strong>Shipping Address:</strong> {{ sales_quotation.shipping_address }}</p>
+            </div>
+        </div>
+            <!-- Add other fields as needed -->
+
+            <!-- Display related SalesItemRow objects in a table -->
+            <h5 class="card-title mt-4">Sales Products</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in sales_quotation.items.all %}
+                        <tr>
+                            <td>{{ item.product_name }}</td>
+                            <td>{{ item.product_description }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.unit_price }}</td>
+                            <td>{{ item.total_price }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+        </div>
+        <div class="card-body">
+          
+          <!-- Add other fields as needed -->
+
+          <!-- Display related SalesItemRow objects in a table -->
+          <h5 class="card-title mt-4">Production Requirements/Material </h5>
+          <table class="table">
+              <thead>
+                  <tr>
+                      <th>Material</th>
+                      <th>Unit</th>
+                      <th>Quantity per Piece</th>
+                      <th>Quantity</th>
+
+                      <th>Required</th>
+                      <th>Allocated</th>
+                      <th>Status</th>
+
+
+
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for item in ProductionRow %}
+                      <tr>
+                          <td>{{ item.material }}</td>
+                          <td>{{ item.unit }}</td>
+                          <td>{{ item.quantity_per_piece }}</td>
+                          <td>{{ item.order_quantity }}</td>
+                          <td>{{ item.required }}</td>
+                          <td>{{ item.allocated }}</td>
+                          <td>{{ item.status }}</td>
+
+
+
+                      </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+
+
+      </div>
+      <div class="card-body">
+          
+        <!-- Add other fields as needed -->
+
+        <!-- Display related SalesItemRow objects in a table -->
+        <h5 class="card-title mt-4">Post Production Requirements/Material </h5>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Material</th>
+                    
+                    <th>TotalQuantity</th>
+                    <th>Cutting</th>
+                    <th> Cutting Unit</th>
+                    <th>Printing</th>
+                    <th>Stitching</th>
+                    <th> Stitching Unit</th>
+                    <th>Action</th>
+
+
+                  
+
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in allotedProcess %}
+                    <tr>
+                        <td>{{ item.Material }}</td>
+                       
+                        <td>{{ item.Material.allocated }}</td>
+                        <td>{{ item.cutting }}</td>
+                        <td>{{ item.cutting_unit }}</td>
+                        <td>{{ item.printing }}</td>
+                        <td>{{ item.stitching }}</td>
+                        <td>{{ item.stitching_unit }}</td>
+
+                        <td><a href="{% url 'delete_allocated_material_production_flow' item.pk %}" class="btn btn-danger">Delete</a></td>
+
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+
+
+
+    
+
+    <div class="card-body">
+          
+      <!-- Add other fields as needed -->
+
+      <!-- Display related SalesItemRow objects in a table -->
+      <h5 class="card-title mt-4">Produced Material</h5>
+      <table class="table">
+          <thead>
+              <tr>
+                  <th>Sales Order</th>
+                  
+                  <th>Product</th>
+                  <th>Production Unit</th>
+                  <th>Total Processed Now</th>
+                  <th>Quantity Processed</th>
+                  <th>Quantity Left</th>
+
+                  <th>Order Quantity</th>
+
+                  <th>Production_date</th>
+                  <th>Production_time</th>
+                
+
+
+
+
+              </tr>
+          </thead>
+          <tbody>
+              {% for item in product_tr %}
+                  <tr>
+                      <td>{{ item.sales_order }}</td>
+                      <td>{{ item.alloca.Material }}</td>
+                      <td>{{ item.productionUnit }}</td>
+
+
+                     
+                      <td>{{ item.TotalprocessedNow }}</td>
+                      <td>{{ item.TotalProcessed }}</td>
+                      <td>{{ item.TotalLeft }}</td>
+                      <td>{{ item.TotalQuantity }}</td>
+                      <td>{{ item.production_date }}</td>
+                      <td>{{ item.production_time }}</td>
+
+
+
+                  </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+
+
+  </div>
+
+  <div class="card-body">
+          
+    <!-- Add other fields as needed -->
+
+    <!-- Display related SalesItemRow objects in a table -->
+    <h5 class="card-title mt-4">Product Ready To be Packed/Dispatched</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>sales_order</th>
+                <th>product</th>
+                <th>quantity</th>
+
+                <th>Cost Of Single</th>
+                <th>Total Cost</th>
+                <th>Packed</th>
+                <th>Dispatched</th>
+
+
+
+                <th>Entry Date</th>
+                <th>Status</th>
+
+
+
+       
+
+
+
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in completed %}
+                <tr>
+                    <td>{{ item.sales_order }}</td>
+                    <td>{{ item.product }}</td>
+                    <td>{{ item.quantity }}</td>
+
+                    <td>{{ item.cost_of_single }}</td>
+                    <td>{{ item.ledt }}</td>
+                    <td>{{ item.disp_left }}</td>
+
+
+
+                   
+                    <td>{{ item.total_value }}</td>
+
+                    <td>{{ item.entry_date }}</td>
+                    <td>{{ item.status }}</td>
+
+
+
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+</div>
+
+
+    </div>
+    
+
+        
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h1>Production Steps Involved</h1>
+  </div>
+  <div class="card-body">
+    <form method="post" class="form-horizontal">
+        {% csrf_token %}
+        <input type="hidden" name="sales_id" value="{{ sales_quotation.quotation_number }}">
+
+        <div class="row">
+          
+            {% for field in form %}
+                <div class="col-md-2">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="row" style="padding-top: 20px;">
+            <div class="form-group col-md-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<div class="card">
+  <div class="card-body">
+    <form method="post"  class="form-horizontal">
+      {% csrf_token %}
+      <input type="hidden" name="sales_id" value="{{ sales_quotation.quotation_number }}">
+      <div class="row">
+
+          <div class="col-md-2">
+              <label for="{{ production_form.product.id_for_label }}">{{ production_form.product.label }}</label>
+              {{ production_form.product }}
+          </div>
+
+        
+
+    <div class="col-md-2">
+      <label for="{{ production_form.TotalQuantity.id_for_label }}">{{ production_form.TotalQuantity.label }}</label>
+      {{ production_form.TotalQuantity }}
+    </div>
+    
+      </div>
+      
+
+
+      <div class="row" style="padding-top: 20px;">
+          <div class="form-group col-md-12">
+              <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+      </div>
+  </form>
+    </div>
+</div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var approveButtons = document.querySelectorAll('.approve-btn');
+      var disapproveButtons = document.querySelectorAll('.disapprove-btn');
+  
+      approveButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          var orderId = button.getAttribute('data-order-id');
+          showConfirmationModal(orderId, 'approved');
+        });
+      });
+  
+      disapproveButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          var orderId = button.getAttribute('data-order-id');
+          showConfirmationModal(orderId, 'disapproved');
+        });
+      });
+  
+      function showConfirmationModal(orderId, action,delivery) {
+            var modal = document.getElementById('confirmationModal');
+            var form = modal.querySelector('form');
+            var actionInput = form.querySelector('input[name="action"]');
+            var orderIdInput = form.querySelector('input[name="order_id"]');
+            var delivery_date = form.querySelector('input[name="delivery_date"]');
+
+            actionInput.value = action;
+            orderIdInput.value = orderId;
+            delivery_date.value=delivery
+            // Display the modal by toggling its visibility
+            modal.style.display = 'block';
+
+            // Optionally, you can add more logic here to customize the modal content or appearance
+        }
+
+        // Close the modal when the user clicks the close button
+        var closeButton2 = document.getElementById('cancel');
+        if (closeButton2) {
+            closeButton2.addEventListener('click', function () {
+            var modal = document.getElementById('confirmationModal');
+            modal.style.display = 'none';
+            });
+        }
+        var closeButton = document.querySelector('.modal-content .close');
+        if (closeButton) {
+            closeButton.addEventListener('click', function () {
+            var modal = document.getElementById('confirmationModal');
+            modal.style.display = 'none';
+            });
+        }
+    });
+  </script>
+  <script>
+    function handleColorTheme(e) {
+      $("html").attr("data-color-theme", e);
+      $(e).prop("checked", !0);
+    }
+  </script>
+
+
+
+
+<script src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/js/datatable/datatable-basic.init.js"></script>
+{% endblock %}

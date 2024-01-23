@@ -204,12 +204,14 @@
                         <span class="fs-3 invoice-date text-nowrap text-body-color d-block icon-status-container">
                           
                       </span>
+                      {% if user.department.name == "ACCOUNT" %}
                         <button class="btn btn-primary btn-default print-page" type="button">
                           <span><i class="ti ti-eye fs-5"></i>
                             <a href="{% url 'sales_order_requirements' sales_id=result.sale_number %}" >
                               View Requirements
                           </a></span>
                         </button>
+                        {% endif %}
                         <button class="btn btn-primary btn-default print-page" type="button">
                           <span><i class="ti ti-printer fs-5"></i>
                             Print</span>

@@ -21,7 +21,8 @@ from .views import GeneratePDF
 urlpatterns = [
 
     
-    
+    path('generalLedger/', views.Gernal_Ledger, name="generalLedger"),
+    path('LedgerEntries/', views.LedgerEntries, name="LedgerEntries"),
     
     
     
@@ -42,7 +43,7 @@ urlpatterns = [
     
     
     ##############Journal Ledgers###########
-    path('generalLedger/', views.Gernal_Ledger, name="generalLedger"),
+    # path('generalLedger/', views.Gernal_Ledger, name="generalLedger"),
 
     
     ###########################################################################################################################
@@ -196,7 +197,7 @@ urlpatterns = [
     ###################################Purchase Urls##########################
     path('purchase-detail/<int:pk>/',views.purchaseDetail, name='purchase-detail'),
     path('purchase-delete/<int:pk>/', views.purchaseDelete, name='purchase-delete'),
-    path('purchase-invoices/', views.purchaseList, name='purchaseOrder'),
+    path('purchase-invoices/', views.purchaseList, name='purchase-invoices'),
     path('purchase-invoices/add/', views.purchaseEntry, name='add_purchase'),
     #####################################################################################################
 

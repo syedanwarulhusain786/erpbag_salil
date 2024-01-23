@@ -49,6 +49,18 @@ class Sales(models.Model):
         
         
     ]
+    salesstatus_TYPE_CHOICES=[
+        ('pending', 'pending'),
+        ('approved', 'approved'),
+        ('inProduction', 'inProduction'),
+        ('produced', 'produced'),
+        
+        
+        ('deliverPending', 'deliverPending'),
+        ('completed', 'completed'),
+        
+        
+    ]
     user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL ,blank=True,null=True)
     trasactionType = models.CharField(max_length=20, choices=trasactionType_CHOICES,null=True,blank=True)
     trasactionDetails = models.CharField(max_length=20,null=True,blank=True)
@@ -73,7 +85,7 @@ class Sales(models.Model):
     ledger = models.ForeignKey(Ledger, on_delete=models.CASCADE)  # Foreign key for Ledger
     status = models.CharField(max_length=20, choices=statusType_CHOICES, default='pending',null=True,blank=True)
     balance = models.CharField(max_length=255, blank=True, null=True)
-    
+    Order_Status = models.CharField(max_length=20, choices=salesstatus_TYPE_CHOICES, default='pending',null=True,blank=True)
     def save(self, *args, **kwargs):
         # Calculate grand total before saving
         self.balance=float(self.sub_total)-float(self.advance)

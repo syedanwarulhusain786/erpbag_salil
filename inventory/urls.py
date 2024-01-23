@@ -20,8 +20,16 @@ from . import views
 
 
 urlpatterns = [
+    path('receive-material/<int:job_id>/', views.jobIn, name='jobIn'),
+    path('send-material/', views.jobOut, name='jobOut'),
+    path('jobList/', views.jobList, name='jobList'),
+    
     path('acceptedsales_list/', views.acceptedsales_list, name='acceptedsales_list'),
+    path('pendingallocate/', views.pendingallocate, name='pendingallocate'),
+    
     path('allocate/<int:sales_id>/', views.allocate, name='allocate'),
+    path('saveallocate/<int:sales_id>/<int:row_id>/<int:needed_len>', views.saveallocate, name='saveallocate'),
+    
     path('start_production/<str:sales_id>/', views.start_production, name='start_production'),
     path('stock_report/', views.stock_report, name='stock_report'),
     path('create_material_stock/',  views.create_material_stock, name='create_material_stock'),
